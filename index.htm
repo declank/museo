@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-uk" />
+<title>Museo - A Last.fm/Youtube Mashup</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script type="text/javascript" src="jquery.jcarousel.min.js"></script>
+<script type="text/javascript" src="jquery.ba-bbq.min.js"></script>
+<script type="text/javascript" src="museo.js"></script>
+<style type="text/css">
+*                               { margin: 0; padding: 0; }
+body                            { background: #171717 url("images/bkg.jpg"); color: #fff; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; font-size: 12px; line-height: 18px; }
+#container1                     { text-align: center; background: url("images/banner_bkg_03.jpg") repeat-x; }
+#container2                     { margin: 0 auto; padding: 0; width: 940px; }
+
+#logo                           { margin: 0 0 0 54px; padding: 0; text-indent: -5000px; background: url("images/museo-logo_05.png") no-repeat top left; width: 229px; height: 91px; float: left; }
+
+#formArea                       { margin: 0 0 0 470px; padding: 17px 0 0 0; text-align: left; }
+#formArea .textbox              { padding: 4px; width: 306px; color: #666; font-weight: bold; }
+#formArea .goButton             { margin: 0 0 0 6px; width: 96px; height: 30px; background: url("images/go-button_08.png") no-repeat; color: #fff; border: 0; font-weight: bold; }
+#formArea .item                 { margin: 0 0 0 9px; }
+
+#generatedBy                    { text-align: left; clear: both; float: left; margin: 0 0 0 82px; padding: 26px 0 26px 0; font-size: 14px; }
+#generatedBy .artist,
+#generatedBy .tags,
+#generatedBy .username          { margin: 0 0 0 24px; text-decoration: none; color: #fff; font-weight: bold; padding-bottom: 9px; white-space: nowrap; }
+
+#generatedBy span.artist        { background: url("images/artist-selected_33.png") no-repeat bottom center; }
+#generatedBy span.tags          { background: url("images/tags-selected_35.png") no-repeat bottom center; }
+#generatedBy span.username      { background: url("images/username-selected_37.png") no-repeat bottom center; }
+
+#generatedBy a.artist:hover     { background: url("images/artist-hover_33.png") no-repeat bottom center; }
+#generatedBy a.tags:hover       { background: url("images/tags-hover_35.png") no-repeat bottom center; }
+#generatedBy a.username:hover   { background: url("images/username-hover_37.png") no-repeat bottom center; }
+
+#callout                        { text-align: left; width: 380px; margin-right: 82px; float: right; background: url("images/callout-top_24.png") no-repeat top left; }
+#callout .calloutText           { font-size: 14px; margin: 10px 3px 0 13px; padding: 0 20px 0 32px; display: block; background: #090909; }
+#callout .calloutText .blue     { color: #0066ff; }
+#callout .calloutText .pink     { color: #ff00cc; }
+#callout .calloutAfter          { display: block; background: url("images/callout-bottom_44.png") no-repeat top left;  }
+
+#noJS                           { clear: both; width: 600px; margin: 0 auto; padding-top: 40px; font-size: 14px; font-weight: bold; }
+#noJS a                         { color: #0066ff; }
+
+#artist                         { clear: both; width: 780px; text-align: left; margin: 0 auto;}
+#artist h2                      { padding-bottom: 20px; }   
+#artist ol                      { list-style-type: none; font-size: 14px; }
+#artist li                      { display: block; width: 222px; } 
+#artist li a                    { text-align: right; display: block; color: #fff; text-decoration: none; }
+#artist li a img                { padding: 16px 10px 14px 10px; background: #eee; text-decoration: none; border: 0; }
+#artist .artist1                { float: left; margin-right: 55px; padding-bottom: 20px; }
+#artist .artist2                { float: left; margin-right: 55px; padding-bottom: 20px; }
+#artist .artist3                { float: left; padding-bottom: 20px; }
+#artist .artist4                { clear: left; float: left; margin-right: 55px; padding-bottom: 20px; }
+#artist .artist5                { float: left; margin-right: 55px; padding-bottom: 20px; }
+#artist .artist6                { float: left; padding-bottom: 20px; }
+
+#tags                           { clear: left; text-align: center; }
+#tags h2                        { padding: 20px 0; width: 780px; text-align: left; margin: 0 auto; }
+#tags ul                        { text-align: center; margin: 40px 0; list-style-type: none; font-size: 28px; line-height: 42px; }
+#tags ul li                     { display: inline; }
+#tags ul li a                   { color: #fff; text-decoration: none; }
+#tags li a:hover                { text-decoration: underline; }
+
+#username                       { clear: both; width: 780px; text-align: left; margin: 0 auto; }
+#username h2                    { padding: 20px 0; width: 780px; text-align: left; margin: 0 auto; }   
+#username ol                    { list-style-type: none; font-size: 14px;  }
+#username li                    { display: block; width: 70px; text-align: center; margin: 0 auto; } 
+#username li a                  { text-align: center; display: block; color: #fff; text-decoration: none; }
+#username li a img              { padding: 4px; background: #eee; text-decoration: none; border: 0; }
+#username .user1                { clear: left; float: left; margin-left: 35px; margin-right: 85px; padding-bottom: 20px; }
+#username .user2                { float: left; margin-right: 85px; padding-bottom: 20px; }
+#username .user3                { float: left; margin-right: 85px; padding-bottom: 20px; }
+#username .user4                { float: left; margin-right: 85px; padding-bottom: 20px; }
+#username .user5                { float: left; padding-bottom: 20px; }
+
+#video							{ margin: 20px auto 15px auto; display: block; clear: both; }
+
+#footer                         { clear: both; padding: 20px; text-align: center;  }
+#footer a                       { color: #0066ff; }
+
+/* The following is a lightbox-style effect taken from: http://www.cssjockey.com/tips-tricks/an-easy-way-to-create-light-box-with-jquery-css */
+/* Lightbox background */
+#lightbox {
+ display:none;
+ background:#000000;
+ opacity:0.95;
+ filter:alpha(opacity=95);
+ position:absolute;
+ top:0px;
+ left:0px;
+ min-width:100%;
+ min-height:900px;
+ z-index:1000;
+}
+/* Lightbox panel with some content */
+#lightbox-panel {
+ display:none;
+ position:fixed;
+ top:200px;
+ left:50%;
+ margin-left:-200px;
+ width:400px;
+ font-size:14px;
+ background:#111111;
+ padding:10px 15px 10px 15px;
+ border:2px solid #222222;
+ z-index:1001;
+}
+
+li.playlist-active {
+	background: #446666;
+    border: 2px solid #66DDDD;
+}
+
+.jcarousel-item img {
+	cursor: pointer;
+}
+
+.jcarousel-skin-museo .jcarousel-container {
+    /* -moz-border-radius: 10px; */
+    background: #333333;
+    border: 1px solid #444444;
+
+}
+
+.jcarousel-skin-museo .jcarousel-direction-rtl {
+	direction: rtl;
+}
+
+.jcarousel-skin-museo .jcarousel-container-horizontal {
+    width: 780px;
+    padding: 20px 40px;
+	margin: 0 auto;
+}
+
+.jcarousel-skin-museo .jcarousel-container-vertical {
+    width: 100px;
+    height: 780px;
+    padding: 40px 20px;
+}
+
+.jcarousel-skin-museo .jcarousel-clip-horizontal {
+    width:  780px;
+    height: 152px;
+}
+
+.jcarousel-skin-museo .jcarousel-clip-vertical {
+    width:  100px;
+    height: 780px;
+}
+
+.jcarousel-skin-museo .jcarousel-item {
+    width: 195px;
+    height: 152px;
+	padding: 6px 0;
+}
+
+.jcarousel-skin-museo .jcarousel-item-horizontal {
+	margin-left: 0;
+    margin-right: 10px;
+}
+
+.jcarousel-skin-museo .jcarousel-direction-rtl .jcarousel-item-horizontal {
+	margin-left: 10px;
+    margin-right: 0;
+}
+
+.jcarousel-skin-museo .jcarousel-item-vertical {
+    margin-bottom: 10px;
+}
+
+.jcarousel-skin-museo .jcarousel-item-placeholder {
+    background: #fff;
+    color: #000;
+}
+
+/**
+ *  Horizontal Buttons
+ */
+.jcarousel-skin-museo .jcarousel-next-horizontal {
+    position: absolute;
+    top: 72px;
+    right: 5px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: transparent url(next-horizontal.png) no-repeat 0 0;
+}
+
+.jcarousel-skin-museo .jcarousel-direction-rtl .jcarousel-next-horizontal {
+    left: 5px;
+    right: auto;
+    background-image: url(prev-horizontal.png);
+}
+
+.jcarousel-skin-museo .jcarousel-next-horizontal:hover {
+    background-position: -32px 0;
+}
+
+.jcarousel-skin-museo .jcarousel-next-horizontal:active {
+    background-position: -64px 0;
+}
+
+.jcarousel-skin-museo .jcarousel-next-disabled-horizontal,
+.jcarousel-skin-museo .jcarousel-next-disabled-horizontal:hover,
+.jcarousel-skin-museo .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-image: none; /* background-position: -96px 0; */
+}
+
+.jcarousel-skin-museo .jcarousel-prev-horizontal {
+    position: absolute;
+    top: 72px;
+    left: 5px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: transparent url(prev-horizontal.png) no-repeat 0 0;
+}
+
+.jcarousel-skin-museo .jcarousel-direction-rtl .jcarousel-prev-horizontal {
+    left: auto;
+    right: 5px;
+    background-image: url(next-horizontal.png);
+}
+
+.jcarousel-skin-museo .jcarousel-prev-horizontal:hover {
+    background-position: -32px 0;
+}
+
+.jcarousel-skin-museo .jcarousel-prev-horizontal:active {
+    background-position: -64px 0;
+}
+
+.jcarousel-skin-museo .jcarousel-prev-disabled-horizontal,
+.jcarousel-skin-museo .jcarousel-prev-disabled-horizontal:hover,
+.jcarousel-skin-museo .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-image: none; /* background-position: -96px 0; */
+}
+
+/**
+ *  Vertical Buttons
+ */
+.jcarousel-skin-museo .jcarousel-next-vertical {
+    position: absolute;
+    bottom: 5px;
+    left: 43px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: transparent url(next-vertical.png) no-repeat 0 0;
+}
+
+.jcarousel-skin-museo .jcarousel-next-vertical:hover {
+    background-position: 0 -32px;
+}
+
+.jcarousel-skin-museo .jcarousel-next-vertical:active {
+    background-position: 0 -64px;
+}
+
+.jcarousel-skin-museo .jcarousel-next-disabled-vertical,
+.jcarousel-skin-museo .jcarousel-next-disabled-vertical:hover,
+.jcarousel-skin-museo .jcarousel-next-disabled-vertical:active {
+    cursor: default;
+    background-position: 0 -96px;
+}
+
+.jcarousel-skin-museo .jcarousel-prev-vertical {
+    position: absolute;
+    top: 5px;
+    left: 43px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: transparent url(prev-vertical.png) no-repeat 0 0;
+}
+
+.jcarousel-skin-museo .jcarousel-prev-vertical:hover {
+    background-position: 0 -32px;
+}
+
+.jcarousel-skin-museo .jcarousel-prev-vertical:active {
+    background-position: 0 -64px;
+}
+
+.jcarousel-skin-museo .jcarousel-prev-disabled-vertical,
+.jcarousel-skin-museo .jcarousel-prev-disabled-vertical:hover,
+.jcarousel-skin-museo .jcarousel-prev-disabled-vertical:active {
+    cursor: default;
+    background-position: 0 -96px;
+}
+
+</style>
+
+</head>
+<body>
+<div id="container1">
+<div id="container2">
+  <a href=""><h1 id="logo">Museo - a Youtube/last.fm mashup</h1></a>
+  <div id="formArea">
+    <p><input class="textbox" type="text" /><input class="goButton" type="button" value="Go !"/><br />
+    Based on:
+    <input type="radio" name="playlistBasis" value="artist" class="item" checked="checked" id="artistButton" /><label for="artistButton">Artist</label>
+    <input type="radio" name="playlistBasis" value="tags" class="item" id="tagsButton" /><label for="tagsButton">Genre Tags</label>
+    <input type="radio" name="playlistBasis" value="username" class="item" id="usernameButton" /><label for="usernameButton">Username</label>
+    <input type="checkbox" name="restrictLiveVideos" value="restrictLiveVideos" class="item" id="restrictLiveVideos" /><label for="restrictLiveVideos">Restrict Live Videos</label>
+    </p>
+  </div>
+</div><!-- End container2 -->
+
+<noscript>
+<div id="noJS">Javascript support not dectected. Ensure that Javascript is enabled in your browser's settings and that your browser supports Javascript.
+</div></noscript>
+
+<div id="footer">Written by <a href="http://declank.com" target="_blank">Declan Kelly</a> // Powered by <a href="http://www.last.fm" target="_blank">last.fm</a>
+</div></div>
+</body>
+</html>
+
